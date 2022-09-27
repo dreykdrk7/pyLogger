@@ -1,6 +1,6 @@
 # Python Logger v0.9a
 
-#### Descripción
+### Descripción
 Se trata de un logger que, además de mostrar por consola las notificiaciones, registra los eventos en un archivo de texto de forma automática.
 
 #### Finalidad
@@ -9,14 +9,14 @@ Facilitar el proceso de creación de logs para nuevas aplicaciones.
 #### Beneficios de usar esta librería
 Solo necesitas configurar unas pocas variables para tener listo un logger en tu aplicación o script de Python en unos minutos.
 
-#### Requisitos
+### Requisitos
 - Python -> 3+
 - Colorify -> 1.1.0
 
-#### Sistema Operativo
+### Sistema Operativo
 Detecta si estás empleando un sistema Linux o Windows y utiliza los formatos de línea de ambos sistemas.
 
-#### Instalación
+### Instalación
 Descargar el archivo _logger.py_ dentro de tu proyecto.
 
 Instalar el paquete _colorify_ desde pip:
@@ -24,7 +24,7 @@ Instalar el paquete _colorify_ desde pip:
 pip install colorify
 ```
 
-#### Forma de uso
+### Forma de uso
 En el/los archivos que quieras ejecutar el proceso de logging, debes incluir en la parte superior:
 ```
 import logger
@@ -49,7 +49,17 @@ nuevo_formato = '%H:%M:%S.%f %d-%m-%Y'
 obj_logger.set_datetime_format(nuevo_formato)
 ```
 
-#### Personalización
+#### Logging de eventos
+Una vez instanciada la clase, se lanzan nuevos registros como cualquier logger.
+
+> Puedes añadir además el nombre de usuario que esté ejecutando la aplicación para identificar más fácilmente los errores o el uso de la aplicación por parte de los usuarios.
+
+```
+obj_logger.info('Mensaje de tipo informativo de ejemplo')
+obj_logger.exception('Error de ejecución en el metodo modificar_persona() de la clase Persona()', 'johnsmith')
+```
+
+### Personalización
 Existen diferentes métodos que podemos modificar para personalizar el proceso de logging.
 
 > get_logs_path
