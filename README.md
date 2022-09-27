@@ -49,7 +49,7 @@ nuevo_formato = '%H:%M:%S.%f %d-%m-%Y'
 obj_logger.set_datetime_format(nuevo_formato)
 ```
 
-#### Logging de eventos
+### Logging de eventos
 Una vez instanciada la clase, se lanzan nuevos registros como cualquier logger.
 
 > Puedes añadir además el nombre de usuario que esté ejecutando la aplicación para identificar más fácilmente los errores o el uso de la aplicación por parte de los usuarios.
