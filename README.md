@@ -1,4 +1,4 @@
-# Python Logger v0.9a
+# Python Logger v1.0 final
 ![Logs de ejemplo](https://i.ibb.co/j5KzTds/sample-log.png, "Algunos ejemplos de logs")
 
 ### Descripción
