@@ -2,13 +2,13 @@
 ![Logs de ejemplo](https://i.ibb.co/j5KzTds/sample-log.png, "Algunos ejemplos de logs")
 
 ### Descripción
-Se trata de un logger que, además de mostrar por consola las notificiaciones, registra los eventos en un archivo de texto de forma automática.
+Se trata de un logger que, además de mostrar por consola las notificaciones, registra los eventos en un archivo de texto de forma automática.
 
 #### Finalidad
 Facilitar el proceso de creación de logs para nuevas aplicaciones.
 
 #### Beneficios de usar esta librería
-Solo necesitas configurar unas pocas variables para tener listo un complejo y completo logger en tu aplicación o script de Python en unos minutos.
+Solo necesitas configurar unas pocas variables para tener listo un eficiente, complejo y completo logger en tu aplicación o script de Python en unos minutos.
 
 ### Requisitos
 - Python -> 3+
