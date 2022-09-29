@@ -7,9 +7,36 @@ from os.path import exists
 class Logger():
 
     init_colorify()
-    def __init__(self, bot):
-        self.process_name = bot
+    def __init__(self, identifier):
+        self.process_name = identifier
         self.datetime_format = '%d/%m/%Y %H:%M:%S'
+        self.string_format = '%DATETIME% ||%CATEGORY%|| %MESSAGE%'
+        self.color_palette = {
+            'datetime': {
+                'font-color': C.cyan,
+                'background-color': None
+            },
+            'info': {
+                'font-color': C.white,
+                'background-color': C.blue
+            },
+            'exception': {
+                'font-color': C.white,
+                'background-color': C.orange
+            },
+            'error': {
+                'font-color': C.white,
+                'background-color': C.red
+            },
+            'warning': {
+                'font-color': C.white,
+                'background-color': C.yellow
+            },
+            'critical': {
+                'font-color': C.white,
+                'background-color': C.crimson
+            },
+        }
         self.logs_fullpath = ''
         self.file_name = ''
 
@@ -34,7 +61,7 @@ class Logger():
         try:
             os.system(f'mkdir {self.logs_fullpath}')
         except:
-            print("ERROR AL CREAR EL DIRECTORIO DE REGISTRO DE LOGS.\n¡¡¡COMPRUEBE LOS PERMISOS DE EJECUCIÓN!!!")
+            print('Error creating log folder. Please, check the execution privileges and try again.')
 
 
     def file_exists(self):
@@ -69,7 +96,7 @@ class Logger():
             try:
                 self.create_new_log()
             except:
-                print('ERROR AL CREAR EL ARCHIVO DE LOG.\n¡¡¡COMPRUEBE LOS PERMISOS DE EJECUCIÓN!!!')
+                print('Error creating log file. Please, check the execution privileges and try again.')
                 
 
     def create_new_log(self):
@@ -82,88 +109,133 @@ class Logger():
             month = f'0{month}'
 
         header = f'\n\n*******************************************************************************\n' \
-                 f'*******************************************************************************\n' \
-                 f'*********                                                             *********\n' \
-                 f'*********                                                             *********\n' \
-                 f'*********    Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet    *********\n' \
-                 f'*********                                                             *********\n' \
-                 f'*********                Fecha del creación: {dt.day}/{month}/{dt.year}' \
-                 f'               *********\n' \
-                 f'*********                                                             *********\n' \
-                 f'*********                                                             *********\n' \
-                 f'*******************************************************************************\n' \
-                 f'*******************************************************************************\n\n\n\n'
+                f'*******************************************************************************\n' \
+                f'*********                                                             *********\n' \
+                f'*********                                                             *********\n' \
+                f'*********    Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet    *********\n' \
+                f'*********                                                             *********\n' \
+                f'*********                  Creation date: {dt.day}/{month}/{dt.year}' \
+                f'                  *********\n' \
+                f'*********                                                             *********\n' \
+                f'*********                                                             *********\n' \
+                f'*******************************************************************************\n' \
+                f'*******************************************************************************\n\n\n\n'
 
         f = open(f'{self.logs_fullpath}/{self.file_name}', 'a')
         f.write(header)
         f.close()
-        self.info(f'Se ha creado el log de registro para "{self.process_name}".')
+        self.info(f'Log file has been created successfully for "{self.process_name}".')
 
 
-    def add_new_record(self, category, dt, username, message):
+    def add_new_record(self, new_reg):
         if self.file_exists() == False:
             self.create_new_log()
-        new_log = f'{dt} || {username} || {category} || {message}'
         f = open(f'{self.logs_fullpath}/{self.file_name}', 'a')
-        f.write(f'{new_log}\n')
+        f.write(f'{new_reg}\n')
         f.close()
 
 
-    def info(self, message, username=None):
+    def info(self, message, username=None, thread='Default'):
+        string_splitted = self.string_format.split('%')
+        msg = ''
+        new_reg = ''
+        for sub_section in string_splitted:
+            if len(sub_section) > 1:
+                response = self.select_section(sub_section, thread, username, 'info', message)
+                msg += response[0]
+                new_reg += response[1]
+        print(msg)
+        self.add_new_record(new_reg)
+
+
+    def exception(self, message, username=None, thread='Default'):
+        string_splitted = self.string_format.split('%')
+        msg = ''
+        new_reg = ''
+        for sub_section in string_splitted:
+            if len(sub_section) > 1:
+                response = self.select_section(sub_section, thread, username, 'exception', message)
+                msg += response[0]
+                new_reg += response[1]
+        print(msg)
+        self.add_new_record(new_reg)
+
+
+    def error(self, message, username=None, thread='Default'):
+        string_splitted = self.string_format.split('%')
+        msg = ''
+        new_reg = ''
+        for sub_section in string_splitted:
+            if len(sub_section) > 1:
+                response = self.select_section(sub_section, thread, username, 'error', message)
+                msg += response[0]
+                new_reg += response[1]
+        print(msg)
+        self.add_new_record(new_reg)
+
+
+    def warning(self, message, username=None, thread='Default'):
+        string_splitted = self.string_format.split('%')
+        msg = ''
+        new_reg = ''
+        for sub_section in string_splitted:
+            if len(sub_section) > 1:
+                response = self.select_section(sub_section, thread, username, 'warning', message)
+                msg += response[0]
+                new_reg += response[1]
+        print(msg)
+        self.add_new_record(new_reg)
+
+
+    def critical(self, message, username=None, thread='Default'):
+        string_splitted = self.string_format.split('%')
+        msg = ''
+        new_reg = ''
+        for sub_section in string_splitted:
+            if len(sub_section) > 1:
+                response = self.select_section(sub_section, thread, username, 'critical', message)
+                msg += response[0]
+                new_reg += response[1]
+        print(msg)
+        self.add_new_record(new_reg)
+
+
+    def select_section(self, sub_section, thread, username, category, message):
+        switch_case = {
+            'DATETIME': self.sect_datetime(),
+            'THREAD': self.sect_thread(thread),
+            'USERNAME': self.sect_username(username),
+            'CATEGORY': self.sect_category(category),
+            'MESSAGE': self.sect_message(message)
+        }
+        return switch_case.get(sub_section, self.sect_default(sub_section))
+
+
+    def sect_datetime(self):
         dt = self.datetime_now()
+        msg = colorify(f'{dt}', self.color_palette['datetime']['font-color'], self.color_palette['datetime']['background-color'])
+        new_reg = dt
+        return [msg, new_reg]
+
+
+    def sect_thread(self, thread):
+        return [thread, thread]
+
+
+    def sect_username(self, username):
         if username is None:
             username = self.process_name.upper()
-        msg = colorify(f"{dt}", C.cyan)
-        msg += f' || {username} ||'
-        msg += colorify(" INFO ", C.white, C.blue)
-        msg += f'|| {message}'
-        print(msg)
-        self.add_new_record("INFO", dt, username, message)
+        return [username, username]
 
 
-    def exception(self, message, username=None):
-        dt = self.datetime_now()
-        if username is None:
-            username = self.process_name.upper()
-        msg = colorify(f"{dt}", C.cyan)
-        msg += f' || {username} ||'
-        msg += colorify(" EXCEPTION ", C.white, C.orange)
-        msg += f'|| {message}'
-        print(msg)
-        self.add_new_record("EXCEPTION", dt, username, message)
+    def sect_category(self, category):
+        text = f' {category.upper()} '
+        msg_colored = colorify(text, self.color_palette[category]['font-color'], self.color_palette[category]['background-color'])
+        return [msg_colored, text]
+    
 
+    def sect_message(self, msg):
+        return [msg, msg]
 
-    def error(self, message, username=None):
-        dt = self.datetime_now()
-        if username is None:
-            username = self.process_name.upper()
-        msg = colorify(f"{dt}", C.cyan)
-        msg += f' || {username} ||'
-        msg += colorify(" ERROR ", C.white, C.red)
-        msg += f'|| {message}'
-        print(msg)
-        self.add_new_record("ERROR", dt, username, message)
-
-
-    def warning(self, message, username=None):
-        dt = self.datetime_now()
-        if username is None:
-            username = self.process_name.upper()
-        msg = colorify(f"{dt}", C.cyan)
-        msg += f' || {username} ||'
-        msg += colorify(" WARNING ", C.white, C.yellow)
-        msg += f'|| {message}'
-        print(msg)
-        self.add_new_record("WARNING", dt, username, message)
-
-
-    def critical(self, message, username=None):
-        dt = self.datetime_now()
-        if username is None:
-            username = self.process_name.upper()
-        msg = colorify(f"{dt}", C.cyan)
-        msg += f' || {username} ||'
-        msg += colorify(" CRITICAL ", C.white, C.crimson)
-        msg += f'|| {message}'
-        print(msg)
-        self.add_new_record("CRITICAL", dt, username, message)
+    def sect_default(self, chars):
+        return [chars, chars]
