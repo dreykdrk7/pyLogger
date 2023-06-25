@@ -96,7 +96,7 @@ class Logger:
                  f'{"*" * 79}\n' \
                  f'{"*" * 9}{" " * 61}{"*" * 9}\n' \
                  f'{"*" * 9}{" " * 61}{"*" * 9}\n' \
-                 f'{"*" * 9}{" " * 18}AUTOCOINER SUPABASE - EVENT LOG{" " * 18}{"*" * 9}\n' \
+                 f'{"*" * 9}{" " * 18}Lorem ipsum dolor sit amet{" " * 18}{"*" * 9}\n' \
                  f'{"*" * 9}{" " * 61}{"*" * 9}\n' \
                  f'{"*" * 9}{" " * 14}Creation date: {dt.day}/{month}/{dt.year}{" " * 14}{"*" * 9}\n' \
                  f'{"*" * 9}{" " * 61}{"*" * 9}\n' \
